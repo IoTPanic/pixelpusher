@@ -18,15 +18,6 @@ type connection struct {
 
 var connections []connection
 
-// SendFrame acts kind of like a router, giving your message to the correct ESP
-func SendFrame(ID uint8, frame []pixels.Pixel) {
-	for _, i := range connections {
-		if i.ID == ID {
-			i.input <- frame
-		}
-	}
-}
-
 func createConnection(ctx context.Context, address string, nodeID uint8, sessionID uint8) error {
 	raddr, err := net.ResolveUDPAddr("udp", address)
 	if err != nil {
