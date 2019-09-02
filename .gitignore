@@ -1,3 +1,6 @@
 vendor/
 .vscode/
 db/
+
+# Intellij config
+.idea
