@@ -10,6 +10,33 @@
   revision = "7261b44456fd8b0dcecdd78f1a760b25aec7d400"
 
 [[projects]]
+  digest = "1:6973c2e8119789f8600a3eb9af765c57ea27824f1789198597d701c01abbc013"
+  name = "github.com/googollee/go-engine.io"
+  packages = [
+    ".",
+    "base",
+    "packet",
+    "payload",
+    "transport",
+    "transport/polling",
+    "transport/websocket",
+  ]
+  pruneopts = "UT"
+  revision = "d1cac332336664ac940c0db96d83e9b181cd335c"
+  version = "v1.4.2"
+
+[[projects]]
+  digest = "1:06c5a9eb50bb0770781a7846856f0008b4e47b62e89c57bb4ddf6a1e1539a749"
+  name = "github.com/googollee/go-socket.io"
+  packages = [
+    ".",
+    "parser",
+  ]
+  pruneopts = "UT"
+  revision = "aa8a717234da5266c39e1211323266f397a3cb84"
+  version = "v1.4.2"
+
+[[projects]]
   digest = "1:cbec35fe4d5a4fba369a656a8cd65e244ea2c743007d8f6c1ccb132acf9d1296"
   name = "github.com/gorilla/mux"
   packages = ["."]
@@ -17,12 +44,30 @@
   revision = "00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15"
   version = "v1.7.3"
 
+[[projects]]
+  digest = "1:e62657cca9badaa308d86e7716083e4c5933bb78e30a17743fc67f50be26f6f4"
+  name = "github.com/gorilla/websocket"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "c3e18be99d19e6b3e8f1559eea2c161a665c4b6b"
+  version = "v1.4.1"
+
+[[projects]]
+  digest = "1:79e87abf06b873987dee86598950f5b51732ac454d5a5cab6445a14330e6c9e3"
+  name = "github.com/mattn/go-sqlite3"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "b612a2feea6aa87c6d052d9086572551df06497e"
+  version = "v1.11.0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
     "github.com/IoTPanic/pixels-go",
+    "github.com/googollee/go-socket.io",
     "github.com/gorilla/mux",
+    "github.com/mattn/go-sqlite3",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

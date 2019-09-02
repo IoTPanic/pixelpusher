@@ -1,20 +1,26 @@
 package pusher
 
-// Fixture is a end device that controls LED pixels
+// Fixture is a device with LED strips attached
 type Fixture struct {
-	Name     string
-	Channels []Channel
-	ID       uint16
+	Name       string     `json:"name"`
+	LongID     string     `json:"longID"`
+	PixelsID   string     `json:"pixelsID"`
+	Connection Connection `json:"connection"`
+	Fixtures   []Fixture  `json:"fixtures"`
+	UniverseID string     `json:"universe"`
 }
 
-// Channel is a object to represent a single line of pixels on a fixture, a fixture can have multiple channels
+// Connection is a UDP, TCP, or HTTP connection to a valid fixture
+type Connection struct {
+	IP   string `json:"IP"`
+	Port int    `json:"port"`
+	Type string `json:"type"`
+	MQTT bool   `json:"mqtt"`
+}
+
+// Channel is a single strip
 type Channel struct {
-	RGBW   bool
-	Pixels int
-}
-
-// Universe is a collection of devices that will receive the same data
-type Universe struct {
-	Name     string
-	Fixtures []Fixture
+	ID         uint16 `json:"ID"`
+	PixelCount uint16 `json:"pixelCnt"`
+	RGBW       bool   `json:"RGBW"`
 }

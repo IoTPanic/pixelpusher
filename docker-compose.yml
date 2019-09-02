@@ -1,34 +1,29 @@
 version: "3.7"
 services:
-  mongo:
-    container_name: mongodb
-    image: mongo
-    ports:
-    - "27017:27017"
-    volumes:
-    - db-data:/data/db
   pixelpusher:
     container_name: pixelpusher
-    image: pixelpusher
+    image: pixelpusher:latest
+    environment:
+      - "DBDIR=/go/src/github.com/IoTPanic/pixelpusher/db/"
+      - "MQTT=mqtt-broker:1883"
+      - "MQTT-USERNAME="
+      - "MQTT-PASSWORD="
     ports:
       - "8080:8080"
+    volumes:
+      - "./db/:/go/src/github.com/IoTPanic/pixelpusher/db/"
+    links:
+      - "mqtt:broker"
   mqtt:
     container_name: mqtt-broker
-    image: eclipse-mosquitto
+    image: hivemq/hivemq4
+    hostname: mqtt
+    expose:
+      - "9001"
+      - "1883"
     ports:
       - "1883:1883"
       - "9001:9001"
-    configs:
-      - source: mqttconfig
-        target: /path/to/container/config/to/overwrite/config.conf
-networks:
-  pixelnet:
 
-volumes:
-  db-data:
-
-configs:
-  mqttconfig:
-    file: ./mosquitto.conf
 
 # /mosquitto/config/mosquitto.conf
