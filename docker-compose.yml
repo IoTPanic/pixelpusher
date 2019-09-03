@@ -24,6 +24,12 @@ services:
     ports:
       - "1883:1883"
       - "9001:9001"
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: always
 
 
 # /mosquitto/config/mosquitto.conf

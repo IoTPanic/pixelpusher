@@ -1,13 +1,16 @@
 package pusher
 
+type FixtureSpan []Fixture
+
 // Fixture is a device with LED strips attached
 type Fixture struct {
 	Name       string     `json:"name"`
+	DBID       int        `json:"omitempty"`
 	LongID     string     `json:"longID"`
-	PixelsID   string     `json:"pixelsID"`
+	PixelsID   uint16     `json:"pixelsID"`
 	Connection Connection `json:"connection"`
-	Fixtures   []Fixture  `json:"fixtures"`
-	UniverseID string     `json:"universe"`
+	Channels   []Channel  `json:"channels"`
+	UniverseID int        `json:"universe"`
 }
 
 // Connection is a UDP, TCP, or HTTP connection to a valid fixture

@@ -5,7 +5,7 @@ API for PixelCrasher and the UDPX project. This project involves driving a lot o
 
 ## Source
 
-Running or installing from source requires golang installed, the GOPATH set, and [dep installed](https://golang.github.io/dep/docs/introduction.html). First, dependencies are installed with the command `dep ensure` (or `dep ensure -v` if you want to see what's going on) than PixelPusher can be ran with `go run main.go`.  
+Running or installing from source requires golang installed, the GOPATH set, and [dep installed](https://golang.github.io/dep/docs/introduction.html). First, dependencies are installed with the command `dep ensure` (or `dep ensure -v` if you want to see what's going on) than PixelPusher can be ran with `go run main.go dev`.  
 
 ## Docker
 
