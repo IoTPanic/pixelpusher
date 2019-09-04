@@ -19,5 +19,6 @@ func Start(host string) {
 		ReadTimeout:  15 * time.Second,
 	}
 	log.Println("API Listening at", host)
+	go StartSocketListener()
 	log.Fatal(srv.ListenAndServe())
 }

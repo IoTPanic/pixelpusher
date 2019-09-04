@@ -27,3 +27,8 @@ type Channel struct {
 	PixelCount uint16 `json:"pixelCnt"`
 	RGBW       bool   `json:"RGBW"`
 }
+
+type Universe struct {
+	Name     string    `json:"name"`
+	Fixtures []Fixture `json:"fixtures"`
+}

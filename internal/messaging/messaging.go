@@ -43,9 +43,9 @@ func Start(ClientID string, host string, username string, password string) {
 		if token := c.Connect(); token.Wait() && token.Error() != nil {
 			log.Println("[ ERROR ] Failed to connect to MQTT... ", token.Error().Error(), " trying again in 5 sec...")
 			time.Sleep(10 * time.Second)
-			if fails > 5 {
-				panic(token.Error().Error())
-			}
+			//if fails > 5 {
+			//	panic(token.Error().Error())
+			//}
 			fails++
 		} else {
 			break

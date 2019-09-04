@@ -19,3 +19,8 @@ type Channel struct {
 	RGBW     bool `sql:"RGBW"`
 	Length   int  `sql:"length"`
 }
+
+type Universe struct {
+	ID   int    `sql:"id"`
+	Name string `sql:"name"`
+}

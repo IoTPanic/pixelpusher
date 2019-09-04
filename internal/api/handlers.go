@@ -72,6 +72,10 @@ func listUniverses(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func QueryUniverse(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func addUniverse(w http.ResponseWriter, r *http.Request) {
 
 }

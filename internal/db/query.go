@@ -32,3 +32,19 @@ func QueryFixtureChannels(deviceID int) ([]Channel, error) {
 	}
 	return result, err
 }
+
+func QueryUniverses() ([]Universe, error) {
+	var result []Universe
+	rows, err := db.Query("SELECT * FROM universes")
+	if err != nil {
+		return result, err
+	}
+	for rows.Next() {
+		var u Universe
+		err := rows.Scan(&u.ID, &u.Name)
+		if err != nil {
+			return result, err
+		}
+	}
+	return result, nil
+}

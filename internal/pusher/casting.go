@@ -39,3 +39,11 @@ func (f Fixture) CastToDB() (db.Fixture, []db.Channel) {
 func (c Channel) CastToDB(deviceID int) db.Channel {
 	return db.Channel{Channel: int(c.ID), DeviceID: deviceID, RGBW: c.RGBW, Length: int(c.PixelCount)}
 }
+
+func (u Universe) CastToDB() (db.Universe, []db.Fixture) {
+	var r []db.Fixture
+	for _, i := range u.Fixtures {
+		r = append(r, db.Fixture{Name: i.Name, LongID: i.LongID, PixelsID: int(i.PixelsID), UniverseID: i.UniverseID, ConnectionMethod: i.Connection.Type, ConnectionHost: i.Connection.IP, ConnectionPort: i.Connection.Port, ConnectionMQTT: i.Connection.MQTT})
+	}
+	return db.Universe{Name: u.Name}, r
+}
