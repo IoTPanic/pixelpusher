@@ -107,3 +107,24 @@ The Go objects for a fixture are in `internal/pusher/comonents.go` and are `Fixt
 ```
 
 ```
+
+# MQTT 
+
+In order to activate a connection with MQTT, first, a connection must be started by the client and the client must subscribe to the topic `/fixtures/DEVICE ID/rx` and must have permission to publish on topic  `/fixtures/DEVICE ID/tx`. Than the client must send a connection activation request which contains the following JSON-
+```
+{
+  "deviceID": "",
+  "connection": {
+    "IP": "192.168.1.42",
+    "method": "UDP",
+    "port": 1234
+  },
+  "channels": [
+    {
+      "ID": 0,
+      "RGBW": false,
+      "length": 144
+    }
+  ]
+}
+```

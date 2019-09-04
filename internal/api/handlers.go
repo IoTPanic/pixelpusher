@@ -88,6 +88,17 @@ func removeUniverse(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func updateDeviceChannel(w http.ResponseWriter, r *http.Request) {
+	var update PixelChannelUpdate
+	d := json.NewDecoder(r.Body)
+	err := d.Decode(&update)
+	if err != nil {
+		log.Println("[ ERROR ]", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
 /** For copy and paste
 func n(w http.ResponseWriter, r *http.Request){
 

@@ -14,11 +14,22 @@
   name = "github.com/eclipse/paho.mqtt.golang"
   packages = [
     ".",
-    "packets"
+    "packets",
   ]
   pruneopts = "UT"
   revision = "adca289fdcf8c883800aafa545bc263452290bae"
   version = "v1.2.0"
+
+[[projects]]
+  digest = "1:38ec74012390146c45af1f92d46e5382b50531247929ff3a685d2b2be65155ac"
+  name = "github.com/gomodule/redigo"
+  packages = [
+    "internal",
+    "redis",
+  ]
+  pruneopts = "UT"
+  revision = "9c11da706d9b7902c6da69c592f75637793fe121"
+  version = "v2.0.0"
 
 [[projects]]
   digest = "1:6973c2e8119789f8600a3eb9af765c57ea27824f1789198597d701c01abbc013"
@@ -30,7 +41,7 @@
     "payload",
     "transport",
     "transport/polling",
-    "transport/websocket"
+    "transport/websocket",
   ]
   pruneopts = "UT"
   revision = "d1cac332336664ac940c0db96d83e9b181cd335c"
@@ -41,7 +52,7 @@
   name = "github.com/googollee/go-socket.io"
   packages = [
     ".",
-    "parser"
+    "parser",
   ]
   pruneopts = "UT"
   revision = "aa8a717234da5266c39e1211323266f397a3cb84"
@@ -64,13 +75,21 @@
   version = "v1.4.1"
 
 [[projects]]
+  digest = "1:79e87abf06b873987dee86598950f5b51732ac454d5a5cab6445a14330e6c9e3"
+  name = "github.com/mattn/go-sqlite3"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "b612a2feea6aa87c6d052d9086572551df06497e"
+  version = "v1.11.0"
+
+[[projects]]
   branch = "master"
   digest = "1:32cf722ab04ef8b448f0a2142c9ec3217536fde41bc085a96eff65015897b034"
   name = "golang.org/x/net"
   packages = [
     "internal/socks",
     "proxy",
-    "websocket"
+    "websocket",
   ]
   pruneopts = "UT"
   revision = "ba9fcec4b297b415637633c5a6e8fa592e4a16c3"
@@ -81,8 +100,10 @@
   input-imports = [
     "github.com/IoTPanic/pixels-go",
     "github.com/eclipse/paho.mqtt.golang",
+    "github.com/gomodule/redigo/redis",
     "github.com/googollee/go-socket.io",
-    "github.com/gorilla/mux"
+    "github.com/gorilla/mux",
+    "github.com/mattn/go-sqlite3",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
