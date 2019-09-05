@@ -5,7 +5,7 @@ API for PixelCrasher and the UDPX project. This project involves driving a lot o
 
 ## Source
 
-Running or installing from source requires golang installed, the GOPATH set, and [dep installed](https://golang.github.io/dep/docs/introduction.html). First, dependencies are installed with the command `dep ensure` (or `dep ensure -v` if you want to see what's going on) than PixelPusher can be ran with `go run main.go`.  
+Running or installing from source requires golang installed, the GOPATH set, and [dep installed](https://golang.github.io/dep/docs/introduction.html). First, dependencies are installed with the command `dep ensure` (or `dep ensure -v` if you want to see what's going on) than PixelPusher can be ran with `go run main.go dev`.  
 
 ## Docker
 
@@ -84,7 +84,6 @@ The Go objects for a fixture are in `internal/pusher/comonents.go` and are `Fixt
 {
   "name": "fixture-name",
   "longID": "esp-ID",
-  "pixelsID": 1,
   "connection": {
     "IP": "0.0.0.0",
     "port": 1234,
@@ -98,7 +97,7 @@ The Go objects for a fixture are in `internal/pusher/comonents.go` and are `Fixt
       "RGBW": false
     }
   ],
-  "universe": "null"
+  "model": "esp32"
 }
 ```
 
@@ -106,4 +105,49 @@ The Go objects for a fixture are in `internal/pusher/comonents.go` and are `Fixt
 
 ```
 
+```
+
+# MQTT 
+
+
+All JSON messages are wrapped in the following JSON-
+```
+{
+  "type": 2,
+  "message":{
+    JSON MESSAGE CONTENTS
+  }
+}
+```
+
+
+JSON Message Types-
+
+* Activation Request - 0
+* Activation Response - 1
+* Detail Update - 2
+* Control Packet - 3
+* Upstream Application Data - 4
+* Downstream Application Data - 5
+
+## Activation
+
+In order to activate a connection with MQTT, first, a connection must be started by the client and the client must subscribe to the topic `/fixtures/DEVICE ID/rx` and must have permission to publish on topic  `/fixtures/DEVICE ID/tx`. Than the client must send a connection activation request which contains the following JSON-
+```
+{
+  "deviceID": "",
+  "connection": {
+    "IP": "192.168.1.42",
+    "method": "UDP",
+    "port": 1234
+  },
+  "channels": [
+    {
+      "ID": 0,
+      "RGBW": false,
+      "length": 144
+    }
+  ],
+  "devNonce": 1 
+}
 ```

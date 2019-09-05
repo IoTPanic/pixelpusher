@@ -1,5 +1,7 @@
 package db
 
+import "strconv"
+
 func QueryFixtures() ([]Fixture, error) {
 	var result []Fixture
 	rows, err := db.Query("SELECT * FROM fixtures")
@@ -10,6 +12,39 @@ func QueryFixtures() ([]Fixture, error) {
 		var f Fixture
 		rows.Scan(&f.ID, &f.LongID, &f.Name, &f.PixelsID, &f.ConnectionHost, &f.ConnectionPort, &f.ConnectionMethod, &f.ConnectionMQTT)
 		result = append(result, f)
+	}
+	return result, nil
+}
+
+func QueryFixtureChannels(deviceID int) ([]Channel, error) {
+	var result []Channel
+	rows, err := db.Query("SELECT * FROM channels WHERE deviceID=" + strconv.Itoa(deviceID))
+	if err != nil {
+		return result, err
+	}
+	for rows.Next() {
+		var c Channel
+		err = rows.Scan(&c.ID, &c.DeviceID, &c.Channel, &c.Length, &c.RGBW)
+		result = append(result, c)
+		if err != nil {
+			return []Channel{}, err
+		}
+	}
+	return result, err
+}
+
+func QueryUniverses() ([]Universe, error) {
+	var result []Universe
+	rows, err := db.Query("SELECT * FROM universes")
+	if err != nil {
+		return result, err
+	}
+	for rows.Next() {
+		var u Universe
+		err := rows.Scan(&u.ID, &u.Name)
+		if err != nil {
+			return result, err
+		}
 	}
 	return result, nil
 }

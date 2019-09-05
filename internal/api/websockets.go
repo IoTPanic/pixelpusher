@@ -19,13 +19,10 @@ func StartSocketListener() {
 		fmt.Println("connected:", s.ID())
 		return nil
 	})
-	server.OnEvent("/", "notice", func(s socketio.Conn, msg string) {
-		fmt.Println("notice:", msg)
-		s.Emit("reply", "have "+msg)
-	})
-	server.OnEvent("/chat", "msg", func(s socketio.Conn, msg string) string {
-		s.SetContext(msg)
-		return "recv " + msg
+	server.OnEvent("/", "ping", func(s socketio.Conn, msg string) string {
+		s.Emit("reply", "pong")
+		fmt.Println("PONG")
+		return "pong " + msg
 	})
 	server.OnEvent("/", "bye", func(s socketio.Conn) string {
 		last := s.Context().(string)
@@ -34,16 +31,16 @@ func StartSocketListener() {
 		return last
 	})
 	server.OnError("/", func(e error) {
-		fmt.Println("meet error:", e)
+		fmt.Println("[ ERROR ] [ WEBSOCKETS ]", e)
 	})
 	server.OnDisconnect("/", func(s socketio.Conn, msg string) {
-		fmt.Println("closed", msg)
+		fmt.Println("Websocket connection closed", msg)
 	})
 	go server.Serve()
 	defer server.Close()
 
 	http.Handle("/socket.io/", server)
 	http.Handle("/", http.FileServer(http.Dir("./asset")))
-	log.Println("Serving at localhost:8000...")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Println("Serving SocketIO at localhost:8081...")
+	log.Fatal(http.ListenAndServe("0.0.0.0:8081", nil))
 }

@@ -12,12 +12,13 @@ func Start(host string) {
 	r := mux.NewRouter()
 	applyRouted(r)
 	srv := &http.Server{
-		Handler: r,
+		Handler: IPLogMiddleware(r),
 		Addr:    host,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 	log.Println("API Listening at", host)
+	go StartSocketListener()
 	log.Fatal(srv.ListenAndServe())
 }
