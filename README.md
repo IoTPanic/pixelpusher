@@ -84,7 +84,6 @@ The Go objects for a fixture are in `internal/pusher/comonents.go` and are `Fixt
 {
   "name": "fixture-name",
   "longID": "esp-ID",
-  "pixelsID": 1,
   "connection": {
     "IP": "0.0.0.0",
     "port": 1234,
@@ -98,7 +97,7 @@ The Go objects for a fixture are in `internal/pusher/comonents.go` and are `Fixt
       "RGBW": false
     }
   ],
-  "universe": "null"
+  "model": "esp32"
 }
 ```
 
@@ -109,6 +108,29 @@ The Go objects for a fixture are in `internal/pusher/comonents.go` and are `Fixt
 ```
 
 # MQTT 
+
+
+All JSON messages are wrapped in the following JSON-
+```
+{
+  "type": 2,
+  "message":{
+    JSON MESSAGE CONTENTS
+  }
+}
+```
+
+
+JSON Message Types-
+
+* Activation Request - 0
+* Activation Response - 1
+* Detail Update - 2
+* Control Packet - 3
+* Upstream Application Data - 4
+* Downstream Application Data - 5
+
+## Activation
 
 In order to activate a connection with MQTT, first, a connection must be started by the client and the client must subscribe to the topic `/fixtures/DEVICE ID/rx` and must have permission to publish on topic  `/fixtures/DEVICE ID/tx`. Than the client must send a connection activation request which contains the following JSON-
 ```
@@ -125,6 +147,7 @@ In order to activate a connection with MQTT, first, a connection must be started
       "RGBW": false,
       "length": 144
     }
-  ]
+  ],
+  "devNonce": 1 
 }
 ```
