@@ -11,6 +11,7 @@ services:
       - "REDIS=redis:6379"
     ports:
       - "8080:8080"
+      - "8081:8081"
     volumes:
       - "./db/:/go/src/github.com/IoTPanic/pixelpusher/db/"
     links:
