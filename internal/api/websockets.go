@@ -3,44 +3,34 @@ package api
 import (
 	"fmt"
 	"log"
-	"net/http"
 
-	socketio "github.com/googollee/go-socket.io"
+	"github.com/gorilla/mux"
+	"github.com/pschlump/MiscLib"
+	"github.com/pschlump/godebug"
+	"github.com/pschlump/socketio"
 )
 
-func StartSocketListener() {
-	// Just some example code atm
+func applySocketConnection(r *mux.Router) {
 	server, err := socketio.NewServer(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
-	server.OnConnect("/", func(s socketio.Conn) error {
-		s.SetContext("")
-		fmt.Println("connected:", s.ID())
-		return nil
-	})
-	server.OnEvent("/", "ping", func(s socketio.Conn, msg string) string {
-		s.Emit("reply", "pong")
-		fmt.Println("PONG")
-		return "pong " + msg
-	})
-	server.OnEvent("/", "bye", func(s socketio.Conn) string {
-		last := s.Context().(string)
-		s.Emit("bye", last)
-		s.Close()
-		return last
-	})
-	server.OnError("/", func(e error) {
-		fmt.Println("[ ERROR ] [ WEBSOCKETS ]", e)
-	})
-	server.OnDisconnect("/", func(s socketio.Conn, msg string) {
-		fmt.Println("Websocket connection closed", msg)
-	})
-	go server.Serve()
-	defer server.Close()
 
-	http.Handle("/socket.io/", server)
-	http.Handle("/", http.FileServer(http.Dir("./asset")))
-	log.Println("Serving SocketIO at localhost:8081...")
-	log.Fatal(http.ListenAndServe("0.0.0.0:8081", nil))
+	server.On("connection", func(so socketio.Socket) {
+		fmt.Println("Socket connection")
+		so.Join("test")
+		so.On("ping", func() string {
+			fmt.Println("PONG")
+			so.BroadcastTo("test", "pong", "Hello World")
+			return "PONG"
+		})
+		so.On("disconnect", func() {
+			fmt.Printf("%suser disconnect%s, %s\n", MiscLib.ColorYellow, MiscLib.ColorReset, godebug.LF())
+		})
+	})
+
+	server.On("error", func(so socketio.Socket, err error) {
+		fmt.Printf("Error: %s, %s\n", err, godebug.LF())
+	})
+	r.Handle("/socket.io/", server)
 }

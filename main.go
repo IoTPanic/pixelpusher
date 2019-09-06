@@ -62,7 +62,6 @@ func main() {
 		panic(err)
 	}
 	go api.Start("0.0.0.0:8080")
-	go StartSocketListener()
 	go messaging.Start("Controller", mqttHost, mqttUser, mqttPass)
 	cache.InitalizePool(redisHost)
 	sigs := make(chan os.Signal, 1)
