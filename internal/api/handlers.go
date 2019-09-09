@@ -43,6 +43,7 @@ func addFixture(w http.ResponseWriter, r *http.Request) {
 	d := json.NewDecoder(r.Body)
 	err := d.Decode(&f)
 	if err != nil {
+		log.Println("ERROR", err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

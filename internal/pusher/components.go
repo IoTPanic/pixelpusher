@@ -6,7 +6,7 @@ type FixtureSpan []Fixture
 type Fixture struct {
 	Name       string     `json:"name"`
 	DBID       int        `json:"omitempty"`
-	LongID     string     `json:"longID"`
+	LongID     string     `json:"ID"`
 	PixelsID   uint16     `json:"pixelsID"`
 	Connection Connection `json:"connection"`
 	Channels   []Channel  `json:"channels"`
