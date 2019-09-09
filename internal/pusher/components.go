@@ -1,5 +1,13 @@
 package pusher
 
+const (
+	ActivationReqest   = 0
+	ActivationResponse = 1
+	DetailUpdate       = 2
+	ControlPacket      = 3
+	ApplicationData    = 4
+)
+
 type FixtureSpan []Fixture
 
 // Fixture is a device with LED strips attached
@@ -31,4 +39,31 @@ type Channel struct {
 type Universe struct {
 	Name     string    `json:"name"`
 	Fixtures []Fixture `json:"fixtures"`
+}
+
+// THIS SECTION IS FOR MESSAGE TYPES USED IN THE MQTT COMMUNICATION WITH DEVICES
+
+// ActivationRequest is a request from a fixture to join and come online
+type ActivationRequest struct {
+	LongID           string     `json:"ID"`
+	Connection       Connection `json:"connection"`
+	Channels         []Channel  `json:"channels"`
+	Model            string     `json:"model"`
+	ConnectionMethod string     `json:"method"`
+	DevNonce         int        `json:"nonce"`
+}
+
+// ActivationResponseSuccess is a success message to an activation
+type ActivationResponseSuccess struct {
+	Success  bool `json:"success"`
+	Session  int  `json:"session"`
+	PixelID  int  `json:"pixelID"`
+	DevNonce int  `json:"nonce"`
+}
+
+// ActivationResponseFailure is the activation failure message
+type ActivationResponseFailure struct {
+	Success bool   `json:"success"`
+	Reason  string `json:"reason"`
+	Hold    bool   `json:"hold"`
 }

@@ -14,7 +14,7 @@ func (f Fixture) Insert() (int64, error) {
 }
 
 func (c Channel) Insert() (int64, error) {
-	stmt, err := db.Prepare("INSERT INTO channels(channel, deviceID, RGBW, length)")
+	stmt, err := db.Prepare("INSERT INTO channels(channel, 'deviceID', RGBW, length) values(?, ?, ?, ?)")
 	if err != nil {
 		return 0, err
 	}

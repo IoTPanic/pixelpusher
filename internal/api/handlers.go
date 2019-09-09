@@ -27,7 +27,7 @@ func listFixtures(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, i := range f {
-		c, err := db.QueryFixtureChannels(int(i.ID))
+		c, err := db.QueryFixtureChannels(i.LongID)
 		result = append(result, pusher.CastFixture(i, c))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

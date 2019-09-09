@@ -127,19 +127,19 @@ JSON Message Types-
 * Activation Response - 1
 * Detail Update - 2
 * Control Packet - 3
-* Upstream Application Data - 4
-* Downstream Application Data - 5
+* Application Data - 4
 
 ## Activation
 
 In order to activate a connection with MQTT, first, a connection must be started by the client and the client must subscribe to the topic `/fixtures/DEVICE ID/rx` and must have permission to publish on topic  `/fixtures/DEVICE ID/tx`. Than the client must send a connection activation request which contains the following JSON-
 ```
 {
-  "deviceID": "",
+  "ID": "",
   "connection": {
     "IP": "192.168.1.42",
     "method": "UDP",
-    "port": 1234
+    "port": 1234,
+    "MQTT": true
   },
   "channels": [
     {
@@ -149,5 +149,28 @@ In order to activate a connection with MQTT, first, a connection must be started
     }
   ],
   "devNonce": 1 
+}
+```
+
+A activation response follows a request with the controller assigning the device a pixelID, and setting the current s session ID. The fixture must boot with a dev nonce set to zero and for each activation request nonce must be incremented. For the response to be valid, the responding nonce must match.
+
+If there was a failure activating, a activation failure response will be sent that contains a reason why, as well as to hold. If hold is set to false, the device may continue joining, or if true must terminate activation requests.
+
+**Activation Response Success**
+
+```
+{
+  "success": true,
+  "session": 231,
+  "pixelID": 3,
+  "nonce": 1
+}
+```
+
+```
+{
+  "success": false,
+  "reason": "unregistered fixture",
+  "hold": false
 }
 ```

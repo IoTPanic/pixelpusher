@@ -5,6 +5,7 @@ var createFixturesTableStatement = `CREATE TABLE IF NOT EXISTS fixtures (
 	name VARCHAR(100),
 	longID VARCHAR(100),
 	pixelsID INT,
+	universeID INT,
 	connectionMethod VARCHAR(10),
 	connectionHost VARCHAR(50),
 	connectionPort INT,

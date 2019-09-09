@@ -12,7 +12,7 @@ import (
 var rxHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 	fmt.Printf("[RECIEVED] TOPIC: %s\n", msg.Topic())
 	fmt.Printf("[RECIEVED] MSG: %s\n", msg.Payload())
-
+	go consumeMessage(msg.Payload(), msg.Topic())
 }
 
 // Start starts the mqtt device interface listening

@@ -1,6 +1,6 @@
 package db
 
-import "strconv"
+import "errors"
 
 func QueryFixtures() ([]Fixture, error) {
 	var result []Fixture
@@ -16,9 +16,29 @@ func QueryFixtures() ([]Fixture, error) {
 	return result, nil
 }
 
-func QueryFixtureChannels(deviceID int) ([]Channel, error) {
+func QueryFixture(deviceID string) (Fixture, error) {
+	var result Fixture
+	rows, err := db.Query("SELECT id, name, longID, pixelsID, universeID, connectionMethod, connectionHost, connectionPort, connectionWMQTT FROM `fixtures` WHERE longID=\"" + deviceID + "\"")
+	if err != nil {
+		return result, err
+	}
+	iterated := false
+	for rows.Next() {
+		err = rows.Scan(&result.ID, &result.Name, &result.LongID, &result.PixelsID, &result.UniverseID, &result.ConnectionMethod, &result.ConnectionHost, &result.ConnectionPort, &result.ConnectionMQTT)
+		if iterated {
+			return result, errors.New("duplicate long ID entries")
+		}
+		if err != nil {
+			return result, err
+		}
+		iterated = true
+	}
+	return result, nil
+}
+
+func QueryFixtureChannels(deviceLongID string) ([]Channel, error) {
 	var result []Channel
-	rows, err := db.Query("SELECT * FROM channels WHERE deviceID=" + strconv.Itoa(deviceID))
+	rows, err := db.Query("SELECT * FROM channels WHERE deviceID=" + deviceLongID)
 	if err != nil {
 		return result, err
 	}
