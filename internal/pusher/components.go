@@ -1,13 +1,5 @@
 package pusher
 
-const (
-	ActivationReqest   = 0
-	ActivationResponse = 1
-	DetailUpdate       = 2
-	ControlPacket      = 3
-	ApplicationData    = 4
-)
-
 type FixtureSpan []Fixture
 
 // Fixture is a device with LED strips attached

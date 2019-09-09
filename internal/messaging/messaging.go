@@ -15,6 +15,8 @@ var rxHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 	go consumeMessage(msg.Payload(), msg.Topic())
 }
 
+var DownstreamChannel chan channelMessage
+
 // Start starts the mqtt device interface listening
 func Start(ClientID string, host string, username string, password string) {
 	//mqtt.DEBUG = log.New(os.Stdout, "", 0)
@@ -55,10 +57,12 @@ func Start(ClientID string, host string, username string, password string) {
 	}
 
 	log.Println("Connected to MQTT broker")
-
-	dummy := make(chan bool, 1)
+	DownstreamChannel = make(chan channelMessage, 1)
 	for {
-		<-dummy
-		// Await a channel to publish
+		msg := <-DownstreamChannel
+		t := c.Publish("fixtures/"+msg.Device+"/dwn", 0, false, msg.Payload)
+		if t.Error() != nil {
+			log.Printf("Error publishing - %s", t.Error().Error())
+		}
 	}
 }
