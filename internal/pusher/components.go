@@ -28,8 +28,10 @@ type Channel struct {
 	RGBW       bool   `json:"RGBW"`
 }
 
+//
 type Universe struct {
 	Name     string    `json:"name"`
+	ID       string    `json:"id"`
 	Fixtures []Fixture `json:"fixtures"`
 }
 
@@ -45,17 +47,29 @@ type ActivationRequest struct {
 	DevNonce         int        `json:"nonce"`
 }
 
-// ActivationResponseSuccess is a success message to an activation
-type ActivationResponseSuccess struct {
-	Success  bool `json:"success"`
-	Session  int  `json:"session"`
-	PixelID  int  `json:"pixelID"`
-	DevNonce int  `json:"nonce"`
-}
+// // ActivationResponseSuccess is a success message to an activation
+// type ActivationResponseSuccess struct {
+// 	Success  bool `json:"success"`
+// 	Session  int  `json:"session"`
+// 	PixelID  int  `json:"pixelID"`
+// 	DevNonce int  `json:"nonce"`
+// }
 
-// ActivationResponseFailure is the activation failure message
-type ActivationResponseFailure struct {
-	Success bool   `json:"success"`
-	Reason  string `json:"reason"`
-	Hold    bool   `json:"hold"`
+// // ActivationResponseFailure is the activation failure message
+// type ActivationResponseFailure struct {
+// 	Success bool   `json:"success"`
+// 	Reason  string `json:"reason"`
+// 	Hold    bool   `json:"hold"`
+// }
+
+// ActivationResponse is a JSON document sent in response to an activation
+// request, if success is true, then the session, fixtureID, and nonce will
+// be present, else, reason and hold will be present.
+type ActivationResponse struct {
+	Success   bool   `json:"success"`
+	Session   int    `json:"session"`
+	FixtureID int    `json:"fixture"`
+	Nonce     int    `json:"nonce"`
+	Reason    string `json:"reason"`
+	Hold      bool   `json:"bool"`
 }
