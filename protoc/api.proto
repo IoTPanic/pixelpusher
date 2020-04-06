@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+enum DeviceState {
+    OFFLINE = 0;
+    CONNECTING_AUTH = 1;
+    CONNECTING_HALTED = 2;
+    CONNECTED_WAITING = 3;
+    OPERATING = 4;
+    STANDBY = 5;
+}
+
+enum MatrixType {
+    WHITE = 0;
+    RGB = 1;
+    RGBW = 2;
+}
+
+message Device  {
+    string name = 1;  // Human readable name
+    DeviceState state = 2; // What state the device is in
+    int64 uptime = 3; // Uptime in minutes
+    uint64 joined = 4; // Last join time in UNIX64 seconds since epoch
+}
+
+message Matrix {
+    uint64 id = 1;
+    uint32 width = 2;
+    uint32 height = 3;
+    MatrixType type = 4;
+}
+
+message MatrixUpdate {
+    uint64 matrix = 1;
+    uint32 start = 2; // Using start and the length of pixels fields, we can do a partial update
+    repeated Pixel pixels = 3;
+    uint64 frame = 4;
+}
+
+message Pixel {
+    uint32 R = 1; // Note that all fields are optional
+    uint32 G = 2;
+    uint32 B = 3;
+    uint32 W = 4;
+}
