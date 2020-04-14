@@ -49,6 +49,10 @@ The device which is similar to a DMX "controller" has many properties which are 
 
 `connector` - Boolean
 
+`key` - Security key.
+
+`use_key` - Boolean if to use the key or to skip integrity checking.
+
 `channel_cnt` - The number of channels available for the device.
 
 ### Channels
@@ -64,6 +68,24 @@ Channels are device positions to attach lighting, all of which have basic on or 
 `color` - String color information for use by the front end.
 
 `max_length` - The maximum matrix length that can be used on the channel.
+
+### Strips
+
+Strips are attached to channels and represent a matrix that is either single dimensional single value, single dimensional multi-value, or a two dimensional matrix. No matter the size of the matrix, all data is represented as a single dimentional array.
+
+`id` - The SQL ID for SQL for identifying stips.
+
+`device` - Device the strip is conencted to.
+
+`channel` - Channel ID used for IDing the channel the strip is attached to.
+
+`width` - The width of the matrix, this is the value used for the legnth.
+
+`height` - Height of the matrix.
+
+`type` - Matrix type such as RGB, RGBW, or BLKWHT.
+
+`coloring` - Coloring information for the front end.
 
 ## Hardware
 
