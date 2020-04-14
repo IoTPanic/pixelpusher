@@ -41,19 +41,12 @@ func main() {
 			os.Exit(1)
 		case "dev":
 			os.Setenv("DBDIR", "./db/")
-			os.Setenv("MQTT", "localhost:1883")
-			os.Setenv("REDIS", "localhost:6379")
-			os.Setenv("MQTT-USERNAME", "")
-			os.Setenv("MQTT-PASSWORD", "")
 			break
 		}
 	}
 
-	redisHost := os.Getenv("REDIS")
 	dbPath := os.Getenv("DBDIR")
-	mqttHost := os.Getenv("MQTT")
-	mqttUser := os.Getenv("MQTT-USERNAME")
-	mqttPass := os.Getenv("MQTT-PASSWORD")
+
 
 	os.MkdirAll(dbPath, 0700) // Create db dir if nonexistant
 	dbPath = dbPath + "pixelsDB.db"
@@ -62,8 +55,6 @@ func main() {
 		panic(err)
 	}
 	go api.Start("0.0.0.0:8080")
-	go messaging.Start("Controller", mqttHost, mqttUser, mqttPass)
-	cache.InitalizePool(redisHost)
 	sigs := make(chan os.Signal, 1)
 	done := make(chan bool, 1)
 	log.Println("Waiting for sigterm")

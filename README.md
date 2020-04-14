@@ -1,6 +1,6 @@
 # PixelPusher
 
-PixelPusher is a backend for controlling RGB LED matrix installations which may contain multiple network or wired serial devices which is used by the PixelCrasher project. PixelPusher contains a REST like API for querying data, WebRTC for streaming data from a browser, state storage for frontends, command and control for dot controllers, and a UDP server for streaming PIXELs data to said dot controllers (or DMX hardware using a translation).
+PixelPusher is a backend for controlling RGB LED matrix installations which may contain multiple network or wired serial devices (controllers) which is used by the PixelCrasher project. PixelPusher contains a REST like API for querying data, WebRTC for streaming data from a browser, state storage for frontends, command and control for dot controllers, and a UDP server for streaming PIXELs data to said dot controllers (or DMX hardware using a translation).
 
 ## Overview
 
@@ -28,6 +28,26 @@ In order to work with pixelpusher for development or to contribute to the projec
 ### Docker
 
 ### Building from Source
+
+## Components
+
+### Devices
+
+The device which is similar to a DMX "controller" has many properties which are stored within the database that will change how it operates in the system and are a mutatable resource within the API. Each device represents a peice of hardware, or in some cases connector software which that uses the pixel pusher control protocol as well as the pixels lighting protocol in order to operate. All communication to these devices is handled over UDP.
+
+`id` - The SQL ID that will be used to refrence the device numerically.
+
+`name` - Human readbale name.
+
+`hostname` - IP or domain to reach the device.
+
+`port` - Port number the device is listening on.
+
+`state` - The current state of the device, this is not stored in the SQL database.
+
+`connector` - Boolean
+
+`channel_cnt` - The number of channels available for the device.
 
 ## Hardware
 
