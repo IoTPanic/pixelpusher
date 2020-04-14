@@ -37,6 +37,8 @@ The device which is similar to a DMX "controller" has many properties which are 
 
 `id` - The SQL ID that will be used to refrence the device numerically.
 
+`long_id` - A long ID for a device.
+
 `name` - Human readbale name.
 
 `hostname` - IP or domain to reach the device.
@@ -48,6 +50,20 @@ The device which is similar to a DMX "controller" has many properties which are 
 `connector` - Boolean
 
 `channel_cnt` - The number of channels available for the device.
+
+### Channels
+
+Channels are device positions to attach lighting, all of which have basic on or off or the ability to drive a strip of LEDs. Each channel can be assigned one or more strips, with multiple strips being able to receive the same data or even be slightly offset in accordace to it's setup. Every strip of a channel must however match the coloring information as it effects how the data is encoded and sent to the devices.
+
+`id` - The SQL ID used to ID channels.
+
+`device` - A device SQL ID to refrence which device a channel is assigned to.
+
+`type` - A strips type detirmines what type of fixture is connected such as BLKWHT, RGB, RGBW.
+
+`color` - String color information for use by the front end.
+
+`max_length` - The maximum matrix length that can be used on the channel.
 
 ## Hardware
 
