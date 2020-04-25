@@ -95,6 +95,12 @@ Strips are attached to channels and represent a matrix that is either single dim
 
 `brightness` - This is a signed value which can be set to change the average brightness for the individual strip.
 
+### Projects
+
+In order to allow for multiple lighting setups to be saved and used, projects are created with all other resources being a child of the project. There can be as many projects saved at once that is reasonable but it is recommended to only be working on or using one project at a time.
+
+### Users
+
 ## Hardware
 
 For hardware, either a basic ESP32-WROOM module, Dot, or another generic board can be used to stream data, please view the pixels library to see if there is an example for your platform. Although, we encourage you to buy a dot board in order to support this project as well as the pixelcrasher web frontend.
@@ -109,7 +115,7 @@ In order to authenticate with the client, a 256-bit token is assigned to a clien
 
 ### Paths
 
-#### /api/users
+### /api/users
 
 **GET**
 
@@ -119,7 +125,7 @@ A GET request will return an array of users in protobuf form that exist in the i
 
 Using a POST request on this path will create a new user with the details provided by the client. Some fields will be ignored such as the ID filed by the server and the user will be returned back to the client with all the details such as the ID. 
 
-#### /api/user/{ID}
+### /api/user/{ID}
 
 **GET**
 
@@ -129,13 +135,13 @@ Using a POST request on this path will create a new user with the details provid
 
 **DELETE**
 
-#### /api/projects
+### /api/projects
 
 **GET**
 
 **POST**
 
-#### /api/project/{PID}
+### /api/project/{PID}
 
 **GET**
 
@@ -145,7 +151,7 @@ Using a POST request on this path will create a new user with the details provid
 
 **DELETE**
 
-#### /api/project/{PID}/devices
+### /api/project/{PID}/devices
 
 **GET**
 
@@ -153,7 +159,7 @@ Returns an array of devices that are related to the current project.
 
 **POST**
 
-#### /api/project/{PID}/device/{ID}
+### /api/project/{PID}/device/{ID}
 
 **GET**
 
@@ -163,25 +169,47 @@ Returns an array of devices that are related to the current project.
 
 **DELETE**
 
-#### /api/project/{PID}/device/{ID}/channels
+### /api/project/{PID}/device/{ID}/channels
 
 **GET**
 
 **POST**
 
-#### /api/project/{PID}/device/{ID}/matrixes
+### /api/project/{PID}/device/{ID}/matrixes
 
 **GET**
 
 **POST**
 
-#### /api/project/{PID}/channels
+### /api/project/{PID}/channels
 
 **GET**
 
 **POST**
 
-#### /api/project/{PID}/channel/{ID}
+### /api/project/{PID}/channel/{ID}
+
+**GET**
+
+**POST**
+
+**PUT**
+
+**DELETE**
+
+### /api/project/{PID}/channel/{ID}/matrixes
+
+**GET**
+
+**POST**
+
+### /api/projects/{PID}/matrixes
+
+**GET**
+
+**POST**
+
+### /api/project/{PID}/matrix/{ID}
 
 **GET**
 
@@ -191,27 +219,7 @@ Returns an array of devices that are related to the current project.
 
 **DELETE**
 
-#### /api/project/{PID}/channel/{ID}/matrixes
 
-**GET**
-
-**POST**
-
-#### /api/projects/{PID}/matrixes
-
-**GET**
-
-**POST**
-
-#### /api/project/{PID}/matrix/{ID}
-
-**GET**
-
-**POST**
-
-**PUT**
-
-**DELETE**
 ## WebRTC
 
 WebRTC will be used to stream lighting data from the frontend to channels, with a REST API used to query and modify resources such as devices, strips, and channels along with any resource updates. WebRTC is supposed both by Google Chrome and Mozilla Firefox. 
