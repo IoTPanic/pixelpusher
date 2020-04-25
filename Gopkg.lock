@@ -10,66 +10,12 @@
   revision = "7261b44456fd8b0dcecdd78f1a760b25aec7d400"
 
 [[projects]]
-  digest = "1:bb89a2542933056fcebc2950bb15ec636e623cc43c96597288aa2009f15b0ce1"
-  name = "github.com/eclipse/paho.mqtt.golang"
-  packages = [
-    ".",
-    "packets",
-  ]
-  pruneopts = "UT"
-  revision = "adca289fdcf8c883800aafa545bc263452290bae"
-  version = "v1.2.0"
-
-[[projects]]
-  digest = "1:38ec74012390146c45af1f92d46e5382b50531247929ff3a685d2b2be65155ac"
-  name = "github.com/gomodule/redigo"
-  packages = [
-    "internal",
-    "redis",
-  ]
-  pruneopts = "UT"
-  revision = "9c11da706d9b7902c6da69c592f75637793fe121"
-  version = "v2.0.0"
-
-[[projects]]
   digest = "1:cbec35fe4d5a4fba369a656a8cd65e244ea2c743007d8f6c1ccb132acf9d1296"
   name = "github.com/gorilla/mux"
   packages = ["."]
   pruneopts = "UT"
   revision = "00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15"
   version = "v1.7.3"
-
-[[projects]]
-  digest = "1:e62657cca9badaa308d86e7716083e4c5933bb78e30a17743fc67f50be26f6f4"
-  name = "github.com/gorilla/websocket"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "c3e18be99d19e6b3e8f1559eea2c161a665c4b6b"
-  version = "v1.4.1"
-
-[[projects]]
-  digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
-  name = "github.com/konsorten/go-windows-terminal-sequences"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
-  version = "v1.0.2"
-
-[[projects]]
-  digest = "1:7c084e0e780596dd2a7e20d25803909a9a43689c153de953520dfbc0b0e51166"
-  name = "github.com/mattn/go-colorable"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "8029fb3788e5a4a9c00e415f586a6d033f5d38b3"
-  version = "v0.1.2"
-
-[[projects]]
-  digest = "1:36325ebb862e0382f2f14feef409ba9351271b89ada286ae56836c603d43b59c"
-  name = "github.com/mattn/go-isatty"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "e1f7b56ace729e4a73a29a6b4fac6cd5fcda7ab3"
-  version = "v0.0.9"
 
 [[projects]]
   digest = "1:79e87abf06b873987dee86598950f5b51732ac454d5a5cab6445a14330e6c9e3"
@@ -79,92 +25,13 @@
   revision = "b612a2feea6aa87c6d052d9086572551df06497e"
   version = "v1.11.0"
 
-[[projects]]
-  branch = "master"
-  digest = "1:2b32af4d2a529083275afc192d1067d8126b578c7a9613b26600e4df9c735155"
-  name = "github.com/mgutz/ansi"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
-
-[[projects]]
-  digest = "1:7a40ca559b74a39cb374acf9b2405bfbc1421c32c5d14843d97d3119714196b2"
-  name = "github.com/pschlump/MiscLib"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "a39843c365f40b726e9f30f3d3e8159a361fe1fe"
-  version = "v1.0.0"
-
-[[projects]]
-  digest = "1:e1d7ac2536f54e7c5ed8fa3459708c7e2204d7bff05e33a672784f519262a691"
-  name = "github.com/pschlump/godebug"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "a23370b2689a0135c1e72b168ce8142959fb4dc2"
-  version = "v1.0.0"
-
-[[projects]]
-  digest = "1:7e9ddd0dfe0afb9919d3470762b7e488a174206648a0c2412dfb1e6d63073392"
-  name = "github.com/pschlump/json"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "0d2e6a308e08fb871c1bcd9b56fb21a1be305e22"
-  version = "v1.12.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:c6f321ca5176d4e850a8053056245fcf1533bc0738ad5da43f4b14926e7aa326"
-  name = "github.com/pschlump/socketio"
-  packages = [
-    ".",
-    "engineio",
-    "engineio/message",
-    "engineio/parser",
-    "engineio/polling",
-    "engineio/transport",
-    "engineio/websocket",
-  ]
-  pruneopts = "UT"
-  revision = "3a9d761e99b5d8096491c4de0b825447d61e1489"
-
-[[projects]]
-  digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
-  name = "github.com/sirupsen/logrus"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "839c75faf7f98a33d445d181f3018b5c3409a45e"
-  version = "v1.4.2"
-
-[[projects]]
-  branch = "master"
-  digest = "1:32cf722ab04ef8b448f0a2142c9ec3217536fde41bc085a96eff65015897b034"
-  name = "golang.org/x/net"
-  packages = [
-    "internal/socks",
-    "proxy",
-    "websocket",
-  ]
-  pruneopts = "UT"
-  revision = "ba9fcec4b297b415637633c5a6e8fa592e4a16c3"
-
-[[projects]]
-  branch = "master"
-  digest = "1:767025ef5997eeba9a3b7fba288b8b9e71b44f0e3a2ec6dcd01f144d3dc8f173"
-  name = "golang.org/x/sys"
-  packages = ["unix"]
-  pruneopts = "UT"
-  revision = "749cb33beabd9aa6d3178e3de05bcc914f70b2bf"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
     "github.com/IoTPanic/pixels-go",
-    "github.com/eclipse/paho.mqtt.golang",
-    "github.com/gomodule/redigo/redis",
     "github.com/gorilla/mux",
     "github.com/mattn/go-sqlite3",
-    "github.com/pschlump/socketio",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

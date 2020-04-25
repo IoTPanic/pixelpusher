@@ -7,10 +7,21 @@ import (
 	"path/filepath"
 
 	"github.com/IoTPanic/pixelpusher/internal/api"
-	"github.com/IoTPanic/pixelpusher/internal/cache"
 	"github.com/IoTPanic/pixelpusher/internal/db"
-	"github.com/IoTPanic/pixelpusher/internal/messaging"
 )
+
+var helptext = `
+___  _ _  _ ____ _    ____ ____ ____ ____ _  _ ____ ____ 
+|__] |  \/  |___ |    |    |__/ |__| [__  |__| |___ |__/ 
+|    | _/\_ |___ |___ |___ |  \ |  | ___] |  | |___ |  \
+========================================================
+
+    Help Text
+
+  This is the help menu for pixelcrasher, we recommend 
+you read the README.md file if you have access to the git
+repository.
+`
 
 // Used to scan docker filesystem to try to find db issues; now fixed, just keeping in here
 func scanf() {
@@ -30,42 +41,38 @@ func scanf() {
 }
 
 func main() {
-	//scanf()
 	log.Println("Launching PixelPusher... 🚀 🚀 🚀")
 
+	// Get the standard variables
 	arguments := os.Args[1:]
 	if len(arguments) > 0 {
 		switch arguments[0] {
 		case "help":
-			fmt.Println("Help text coming soon")
+			fmt.Println(helptext)
 			os.Exit(1)
 		case "dev":
 			os.Setenv("DBDIR", "./db/")
-			os.Setenv("MQTT", "localhost:1883")
-			os.Setenv("REDIS", "localhost:6379")
-			os.Setenv("MQTT-USERNAME", "")
-			os.Setenv("MQTT-PASSWORD", "")
 			break
 		}
 	}
+	fmt.Println(arguments)
 
-	redisHost := os.Getenv("REDIS")
+	// Setup the database
 	dbPath := os.Getenv("DBDIR")
-	mqttHost := os.Getenv("MQTT")
-	mqttUser := os.Getenv("MQTT-USERNAME")
-	mqttPass := os.Getenv("MQTT-PASSWORD")
-
 	os.MkdirAll(dbPath, 0700) // Create db dir if nonexistant
 	dbPath = dbPath + "pixelsDB.db"
 	err := db.Connect(dbPath)
 	if err != nil {
 		panic(err)
 	}
+
+	// Start the API
 	go api.Start("0.0.0.0:8080")
-	go messaging.Start("Controller", mqttHost, mqttUser, mqttPass)
-	cache.InitalizePool(redisHost)
+
+	// Setup code to allow for a graceful termination
 	sigs := make(chan os.Signal, 1)
 	done := make(chan bool, 1)
+
 	log.Println("Waiting for sigterm")
 	go func() {
 		sig := <-sigs
