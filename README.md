@@ -1,5 +1,7 @@
 # PixelPusher
 
+**WARNING THIS IS A UNFINISHED PROJECT THAT DOES NOT FUNCTIONALLY WORK, WORK IN PROGRESS.**
+
 PixelPusher is a backend for controlling RGB LED matrix installations which may contain multiple network or wired serial devices (controllers) which is used by the PixelCrasher project. PixelPusher contains a REST like API for querying data, WebRTC for streaming data from a browser, state storage for front-ends, command and control for dot controllers, and a UDP server for streaming PIXELs data to said dot controllers (or DMX hardware using a translation).
 
 ## Overview
@@ -31,6 +33,10 @@ Docker is pretty simple, all you need to do is clone this git repository and you
 
 ### Building from Source
 
+## Hardware
+
+For hardware, either a basic ESP32-WROOM module, Dot, or another generic board can be used to stream data, please view the pixels library to see if there is an example for your platform. Although, we encourage you to buy a dot board in order to support this project as well as the pixelcrasher web frontend.
+
 ## Resources
 
 Resources in pixelpusher which can be also referred to as "components", they have both a table in the database along with 
@@ -39,11 +45,11 @@ Resources in pixelpusher which can be also referred to as "components", they hav
 
 The device which is similar to a DMX "controller" has many properties which are stored within the database that will change how it operates in the system and are a mutatable resource within the API. Each device represents a piece of hardware, or in some cases connector software which that uses the pixel pusher control protocol as well as the pixels lighting protocol in order to operate. All communication to these devices is handled over UDP.
 
-`id` - The SQL ID that will be used to refrence the device numerically.
+`id` - The SQL ID that will be used to reference the device numerically.
 
 `long_id` - A long ID for a device.
 
-`name` - Human readbale name.
+`name` - Human readable name.
 
 `hostname` - IP or domain to reach the device.
 
@@ -69,7 +75,7 @@ Channels are device positions to attach lighting, all of which have basic on or 
 
 `device` - A device SQL ID to reference which device a channel is assigned to.
 
-`type` - A matrixes type detirmines what type of fixture is connected such as BLKWHT, RGB, RGBW.
+`type` - A matrixes type determines what type of fixture is connected such as BLKWHT, RGB, RGBW.
 
 `color` - Matrix color information for use by the front end.
 
@@ -122,10 +128,6 @@ A basic user system is established in order to allow for tokens to be created by
 `username` - User's username to login with, this can be the same as the name but it should stay the 
 
 `password` - Hash of the user password for a login, is excluded from any request, on a login this field can be used to submit a plaintext password value.
-
-## Hardware
-
-For hardware, either a basic ESP32-WROOM module, Dot, or another generic board can be used to stream data, please view the pixels library to see if there is an example for your platform. Although, we encourage you to buy a dot board in order to support this project as well as the pixelcrasher web frontend.
 
 ## API
 
@@ -225,7 +227,7 @@ Returns an array of devices that are related to the current project.
 
 *POST*
 
-### /api/project/{PID}/device/{ID}/matrixes
+#### /api/project/{PID}/device/{ID}/matrixes
 
 *GET*
 
