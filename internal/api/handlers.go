@@ -1,103 +1,56 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
-
-	"github.com/IoTPanic/pixelpusher/internal/pusher"
-
-	"github.com/IoTPanic/pixelpusher/internal/db"
 )
 
 func apiRoot(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "UDXP PIXELS API")
 }
 
-func healthcheck(w http.ResponseWriter, r *http.Request) {
+func handleHealthcheck(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func listFixtures(w http.ResponseWriter, r *http.Request) {
-	var result []pusher.Fixture
-	f, err := db.QueryFixtures()
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	for _, i := range f {
-		c, err := db.QueryFixtureChannels(i.LongID)
-		result = append(result, pusher.CastFixture(i, c))
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-	}
-	e := json.NewEncoder(w)
-	e.Encode(pusher.FixtureSpan(result))
-}
-
-func addFixture(w http.ResponseWriter, r *http.Request) {
-	var f pusher.Fixture
-	d := json.NewDecoder(r.Body)
-	err := d.Decode(&f)
-	if err != nil {
-		log.Println("ERROR", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	entry, channels := f.CastToDB()
-	id, err := entry.Insert()
-	for _, i := range channels {
-		i.Insert()
-	}
-	if err != nil {
-		log.Println("Failed to create fixture DB entry - ", err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-	} else {
-		log.Printf("Inserted new fixture %s SQL ID %d", f.Name, id)
-	}
+func handleVersionRequest(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func modifyFixture(w http.ResponseWriter, r *http.Request) {
+func handleUserRequest(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func removeFixture(w http.ResponseWriter, r *http.Request) {
+func handleUsersRequest(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func listUniverses(w http.ResponseWriter, r *http.Request) {
+func handleUserLogin(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func QueryUniverse(w http.ResponseWriter, r *http.Request) {
+func handleStateRequest(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func addUniverse(w http.ResponseWriter, r *http.Request) {
+func handleCurrentDevicesRequest(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func modifyUniverse(w http.ResponseWriter, r *http.Request) {
+func handleDeviceRequest(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func removeUniverse(w http.ResponseWriter, r *http.Request) {
+func handleDevicesRequest(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func updateDeviceChannel(w http.ResponseWriter, r *http.Request) {
-	var update PixelChannelUpdate
-	d := json.NewDecoder(r.Body)
-	err := d.Decode(&update)
-	if err != nil {
-		log.Println("[ ERROR ]", err.Error())
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+func handleProjectsRequest(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func handleProjectRequest(w http.ResponseWriter, r *http.Request) {
+
 }
 
 /** For copy and paste

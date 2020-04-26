@@ -8,9 +8,11 @@ PixelPusher is a backend for controlling RGB LED matrix installations which may 
 
 *PixelPusher uses it's own lighting protocols and architecture instead of the popular and free to use artnet or DMX protocols.* This is because DMX512 has limitations to the protocol which do not make it suitable for massive arrays of RGB LEDs and their architecture gets confusing quickly if you have many LED matrix doing different things or have multiple large matrix on a single device. The first concept in PixelPusher is the matrix itself, a matrix can be a single dimensional array longer than one to represent a LED matrix, a two dimensional array to represent a true LED matrix, and a 1x1 "matrix" to represent a single off LED light. Each of these can be one of RGB, RGBW, or just white. A single white 1x1 matrix is assumed to be a strobe light. If the matrix is a two-dimensional array, the LEDs are addresses as a single dimensional array, with each row increase the LED index with the index increasing from left to right similar to reading.
 
-The next concept to understand is a channel, each channel in PixelPusher has an ID (Which is not the human-readable ID presented to the user) and is assigned one or more matrixes. These channels can then be assigned to devices with one device able to use many channels. The concept of the channel is used in order to allow the state of the matrix to be updated without changing the channel and the frontend can assign their own lighting effects to channels. Multiple matrixes can be on the same channel.
+The next concept to understand is a channel, each channel in PixelPusher has an ID (Which is not the human-readable ID presented to the user) and is assigned one or more matrixes. These channels can then be assigned to devices with one device able to use many channels. The concept of the channel is used in order to allow the state of the matrix to be updated without changing the channel and the frontend can assign their own lighting effects to channels. Multiple matrixes can be on the same channel, even including offsets.
 
 All communication between the frontend pushing data and the PixelPusher backend is encoded using version three of Google's protobuffers, the schemas of which can be found in the /protobufs folder. Data sent from PixelPusher to devices is using the PIXELs open source protocol which also includes the ability to fragment packets for going over a limited network without much overhead, and a control protocol custom to PixelPusher
+
+To allow for multiple lighting setups to be saved in a single pixelpusher instance, there is a basic concept of projects which come with a state concept. 
 
 ## Requirements
 
@@ -137,9 +139,17 @@ The exposed API for pixelpusher is a REST-like API that can be used to query or 
 
 In order to authenticate with the client, a 256-bit token is assigned to a client which will also be used to check integrity of lighting packets. This token is valid for thirty days which is obtained through a basic login.
 
+Once a token is obtained by the client through the basic login mechanism. This token should be inserted into the Authorization header of the request following "bearer". Assuming the token is valid, the request will go through as it is meant to be, however if the token is invalid then a `401 Unauthorized` will be returned.
+
 ### Paths
 
 Within the path, there is a consistent mention of ID and PID, with the ID being a SQL database ID that resource and the PID being a project ID. The project ID is included to ensure that any client state is at least on the same project state as the server to ensure correctness in queries and mutations.
+
+#### /api/version
+
+*GET*
+
+Returns basic versioning info to ensure that the server is the same or similar version that the client expects.
 
 #### /api/users
 
@@ -162,8 +172,6 @@ The POST request made here is a basic login request as specified in [RFC7617](ht
 *GET*
 
 Receiving a user protobuf can be obtained here.
-
-*POST*
 
 *PUT*
 
@@ -189,6 +197,8 @@ Get all of the devices that have been registered with the API.
 
 *GET*
 
+Return an array of projects that are registered in the instance.
+
 *POST*
 
 Add a new project to the table, this will return the completed projects protobuf with the database ID and etc.
@@ -197,9 +207,11 @@ Add a new project to the table, this will return the completed projects protobuf
 
 *GET*
 
-*POST*
+Return a complete protobuf for the project with the given PID.
 
 *PUT*
+
+A PUT request allows for a resource to be updated, any project filed excluding the ID can be updated through the PUT request as long as the client is authenticated.
 
 *DELETE*
 
@@ -214,8 +226,6 @@ Returns an array of devices that are related to the current project.
 #### /api/project/{PID}/device/{ID}
 
 *GET*
-
-*POST*
 
 *PUT*
 
@@ -243,8 +253,6 @@ Returns an array of devices that are related to the current project.
 
 *GET*
 
-*POST*
-
 *PUT*
 
 *DELETE*
@@ -265,11 +273,19 @@ Returns an array of devices that are related to the current project.
 
 *GET*
 
-*POST*
-
 *PUT*
 
 *DELETE*
+
+## Device Communication
+
+### Joining
+
+### Discovery
+
+### Heartbeat
+
+### PIXELS Application Data
 
 ## WebRTC
 

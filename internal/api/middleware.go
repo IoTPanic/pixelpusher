@@ -11,3 +11,9 @@ func IPLogMiddleware(h http.Handler) http.Handler {
 		h.ServeHTTP(w, r)
 	})
 }
+
+func protectPathWithAuthentication(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)){
+		// TODO add authorization header check for token
+	}
+}
