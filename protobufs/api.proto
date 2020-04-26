@@ -16,17 +16,38 @@ enum MatrixType {
 }
 
 message Device  {
-    string name = 1;  // Human readable name
-    DeviceState state = 2; // What state the device is in
-    int64 uptime = 3; // Uptime in minutes
-    uint64 joined = 4; // Last join time in UNIX64 seconds since epoch
+    uint64 id = 1;
+    string long_id = 2;
+    string name = 3;  // Human readable name
+    string hostname = 4;
+    uint32 port = 5;
+    DeviceState state = 6; // What state the device is in
+    bool connector = 7;
+    bytes key = 8;
+    bool use_key = 9;
+    uint32 channel_cnt = 10;
+    int64 uptime = 11; // Uptime in minutes
+    uint64 joined = 12; // Last join time in UNIX64 seconds since epoch
+}
+
+message Channel {
+    uint64 id = 1;
+    string name = 2;
+    uint64 device = 3;
+    MatrixType type = 4;
+    string color = 5;
+    uint32 max_length = 6;
 }
 
 message Matrix {
     uint64 id = 1;
-    uint32 width = 2;
-    uint32 height = 3;
-    MatrixType type = 4;
+    uint64 device = 2;
+    uint64 channel = 3;
+    uint32 width = 4;
+    uint32 height = 5;
+    MatrixType type = 6;
+    uint32 offset = 7;
+    uint32 brightness = 8;
 }
 
 message MatrixUpdate {
@@ -41,4 +62,12 @@ message Pixel {
     uint32 G = 2;
     uint32 B = 3;
     uint32 W = 4;
+}
+
+message Project {
+
+}
+
+message User {
+    
 }
