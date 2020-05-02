@@ -18,6 +18,6 @@ func Start(host string) {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	log.Println("API Listening at", host)
+	log.Printf("API Serving Pixelpusher at %s 🚀 🚀 🚀", host)
 	log.Fatal(srv.ListenAndServe())
 }

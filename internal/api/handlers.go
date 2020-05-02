@@ -3,6 +3,8 @@ package api
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/IoTPanic/pixelpusher/internal/db"
 )
 
 func apiRoot(w http.ResponseWriter, r *http.Request) {
@@ -11,6 +13,31 @@ func apiRoot(w http.ResponseWriter, r *http.Request) {
 
 func handleHealthcheck(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
+}
+
+func handleLogin(w http.ResponseWriter, r *http.Request) {
+	// Get the fields
+	username, password, ok := r.BasicAuth()
+
+	if !ok { // Check if the request is OK
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	u, err := db.QueryUserFromUsername(username)
+
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if u.Password == hashPassword(password) {
+		// TODO GENERATE AND REGISTER TOKEN
+
+	}
+
+	w.WriteHeader(http.StatusUnauthorized)
 }
 
 // Will only be handling a GET request for the versioning info

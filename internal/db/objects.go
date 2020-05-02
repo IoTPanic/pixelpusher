@@ -6,6 +6,7 @@ import "time"
 type Device struct {
 	ID        int64  `sql:"id"`
 	Name      string `sql:"name"`
+	Project   int64  `sql:"project"`
 	LongID    string `sql:"longID"`
 	Hostname  string `sql:"hostname"`
 	Port      int    `sql:"port"`
@@ -19,16 +20,18 @@ type Channel struct {
 	ID        int    `sql:"id"`
 	Name      string `sql:"name"`
 	Type      int    `sql:"type"`
-	Device    int    `sql:"device"`
+	Project   int64  `sql:"project"`
+	Device    int64  `sql:"device"`
 	Color     string `sql:"color"`
 	MaxLength int    `sql:"max_length"`
 }
 
 // Matrix pixelpusher object for DB
 type Matrix struct {
-	ID         int    `sql:"id"`
-	Device     int    `sql:"device"`
-	Channel    int    `sql:"channel"`
+	ID         int64  `sql:"id"`
+	Device     int64  `sql:"device"`
+	Channel    int64  `sql:"channel"`
+	Project    int64  `sql:"project"`
 	Width      int    `sql:"width"`
 	Height     int    `sql:"height"`
 	Type       int    `sql:"type"`

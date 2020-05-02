@@ -1,30 +1,35 @@
 package db
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
-func QueryFixtures() ([]Fixture, error) {
-	var result []Fixture
-	rows, err := db.Query("SELECT * FROM fixtures")
+// QueryAllDevices returns every device that is registered in the database
+func QueryAllDevices() ([]Device, error) {
+	var result []Device
+	rows, err := db.Query("SELECT * FROM devices")
 	if err != nil {
 		return result, err
 	}
 	for rows.Next() {
-		var f Fixture
-		rows.Scan(&f.ID, &f.LongID, &f.Name, &f.PixelsID, &f.ConnectionHost, &f.ConnectionPort, &f.ConnectionMethod, &f.ConnectionMQTT)
-		result = append(result, f)
+		var d Device
+		rows.Scan(&d.ID, &d.Name, &d.Project, &d.LongID, &d.Hostname, &d.Port, &d.Connector, &d.Key, &d.UseKey)
+		result = append(result, d)
 	}
 	return result, nil
 }
 
-func QueryFixture(deviceID string) (Fixture, error) {
-	var result Fixture
-	rows, err := db.Query("SELECT id, name, longID, pixelsID, universeID, connectionMethod, connectionHost, connectionPort, connectionWMQTT FROM `fixtures` WHERE longID=\"" + deviceID + "\"")
+// QueryDevice by the SQL ID
+func QueryDevice(deviceID int64) (Device, error) {
+	var result Device
+	rows, err := db.Query(fmt.Sprintf("SELECT * FROM 'devices' WHERE ID=\"%d\"", deviceID))
 	if err != nil {
 		return result, err
 	}
 	iterated := false
 	for rows.Next() {
-		err = rows.Scan(&result.ID, &result.Name, &result.LongID, &result.PixelsID, &result.UniverseID, &result.ConnectionMethod, &result.ConnectionHost, &result.ConnectionPort, &result.ConnectionMQTT)
+		err = rows.Scan(&result.ID, &result.Name, &result.Project, &result.LongID, &result.Hostname, &result.Port, &result.Connector, &result.Key, &result.UseKey)
 		if iterated {
 			return result, errors.New("duplicate long ID entries")
 		}
@@ -36,35 +41,12 @@ func QueryFixture(deviceID string) (Fixture, error) {
 	return result, nil
 }
 
-func QueryFixtureChannels(deviceLongID string) ([]Channel, error) {
-	var result []Channel
-	rows, err := db.Query("SELECT * FROM channels WHERE deviceID=" + deviceLongID)
+func QueryUserFromUsername(username string) (User, error) {
+	var result User
+	rows, err := db.Query(fmt.Sprintf("SELECT * FROM 'users' WHERE username=\"%d\"", username))
 	if err != nil {
 		return result, err
 	}
-	for rows.Next() {
-		var c Channel
-		err = rows.Scan(&c.ID, &c.DeviceID, &c.Channel, &c.Length, &c.RGBW)
-		result = append(result, c)
-		if err != nil {
-			return []Channel{}, err
-		}
-	}
-	return result, err
-}
-
-func QueryUniverses() ([]Universe, error) {
-	var result []Universe
-	rows, err := db.Query("SELECT * FROM universes")
-	if err != nil {
-		return result, err
-	}
-	for rows.Next() {
-		var u Universe
-		err := rows.Scan(&u.ID, &u.Name)
-		if err != nil {
-			return result, err
-		}
-	}
+	err = rows.Scan(result.ID, &result.Name, &result.Username, &result.Password, &result.Created, &result.LastLogin)
 	return result, nil
 }

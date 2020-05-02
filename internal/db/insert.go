@@ -1,39 +1,66 @@
 package db
 
-func (f Fixture) Insert() (int64, error) {
-	stmt, err := db.Prepare("INSERT INTO fixtures(name, longID, pixelsID, connectionMethod, connectionHost, connectionPort, connectionWMQTT, universeID) values(?,?,?,?,?,?,?,?)")
+// Insert a device into the database
+func (d Device) Insert() (int64, error) {
+	stmt, err := db.Prepare("INSERT INTO fixtures(name, project, longID, hostname, port, connector, key, userkey) values(?,?,?,?,?,?,?)")
 	if err != nil {
-		return 0, err
+		return -1, err
 	}
-	res, err := stmt.Exec(f.Name, f.LongID, f.PixelsID, f.ConnectionMethod, f.ConnectionHost, f.ConnectionPort, f.ConnectionMQTT, f.UniverseID)
+	res, err := stmt.Exec(d.Name, d.Project, d.LongID, d.Hostname, d.Port, d.Connector, d.Key, d.UseKey)
 	if err != nil {
-		return 0, err
+		return -1, err
 	}
-	id, err := res.LastInsertId()
-	return id, err
+	return res.LastInsertId()
 }
 
+// Insert a channel into the database
 func (c Channel) Insert() (int64, error) {
-	stmt, err := db.Prepare("INSERT INTO channels(channel, 'deviceID', RGBW, length) values(?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO channels(name, project, type, device, color, max_length) values(?,?, ?, ?, ?, ?)")
 	if err != nil {
-		return 0, err
+		return -1, err
 	}
-	res, err := stmt.Exec(c.Channel, c.DeviceID, c.RGBW, c.Length)
+	res, err := stmt.Exec(c.Name, c.Project, c.Type, c.Device, c.Color, c.MaxLength)
 	if err != nil {
-		return 0, err
+		return -1, err
 	}
-	id, err := res.LastInsertId()
-	return id, err
+	return res.LastInsertId()
 }
 
-func (u Universe) Insert() (int64, error) {
-	stmt, err := db.Prepare("INSERT INTO universes(name)")
+// Insert a matrix into the database
+func (m Matrix) Insert() (int64, error) {
+	stmt, err := db.Prepare("INSERT INTO matrixes(device, channel, project, width, height, type, coloring, offset, brightness) values(?,?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
-		return 0, nil
+		return -1, err
 	}
-	res, err := stmt.Exec(u.Name)
+	res, err := stmt.Exec(m.Device, m.Channel, m.Project, m.Width, m.Height, m.Type, m.Coloring, m.Offset, m.Brightness)
 	if err != nil {
-		return 0, err
+		return -1, err
+	}
+	return res.LastInsertId()
+}
+
+// Insert project into the database
+func (p Project) Insert() (int64, error) {
+	stmt, err := db.Prepare("INSERT INTO projects(name, created, last_update, client, active, frontend_state) values(?,?, ?, ?, ?, ?)")
+	if err != nil {
+		return -1, err
+	}
+	res, err := stmt.Exec(p.Name, p.Created, p.LastUpdate, p.Client, p.Active, p.FrontendState)
+	if err != nil {
+		return -1, err
+	}
+	return res.LastInsertId()
+}
+
+// Insert user into the database
+func (u User) Insert() (int64, error) {
+	stmt, err := db.Prepare("INSERT INTO projects(name, username, password, created, last_login) values(?,?, ?, ?, ?)")
+	if err != nil {
+		return -1, err
+	}
+	res, err := stmt.Exec(u.Name, u.Username, u.Password, u.Created, u.LastLogin)
+	if err != nil {
+		return -1, err
 	}
 	return res.LastInsertId()
 }

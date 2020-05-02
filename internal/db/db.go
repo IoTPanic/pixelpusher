@@ -24,7 +24,7 @@ func Connect(dbPath string) error {
 }
 
 func CreateTables() error {
-	statement, err := db.Prepare(createFixturesTableStatement)
+	statement, err := db.Prepare(createDeviceTableStatement)
 	if err != nil {
 		log.Println("SQLite error", err.Error())
 		return err
