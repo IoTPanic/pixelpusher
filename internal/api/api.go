@@ -11,7 +11,6 @@ import (
 func Start(host string) {
 	r := mux.NewRouter()
 	applyRouted(r)
-	applySocketConnection(r)
 	srv := &http.Server{
 		Handler: IPLogMiddleware(r),
 		Addr:    host,

@@ -42,7 +42,6 @@ func scanf() {
 
 func main() {
 	log.Println("Launching PixelPusher... 🚀 🚀 🚀")
-
 	// Get the standard variables
 	arguments := os.Args[1:]
 	if len(arguments) > 0 {

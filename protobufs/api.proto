@@ -10,7 +10,7 @@ enum DeviceState {
 }
 
 enum MatrixType {
-    WHITE = 0;
+    SINGLEVALUE = 0;
     RGB = 1;
     RGBW = 2;
 }
@@ -46,8 +46,9 @@ message Matrix {
     uint32 width = 4;
     uint32 height = 5;
     MatrixType type = 6;
-    uint32 offset = 7;
-    uint32 brightness = 8;
+    string coloring = 7;
+    uint32 offset = 8;
+    uint32 brightness = 9;
 }
 
 message MatrixUpdate {
@@ -65,9 +66,20 @@ message Pixel {
 }
 
 message Project {
-
+    uint64 id = 1;
+    string name = 2;
+    uint64 created = 3;
+    uint64 last_update = 4;
+    string client = 5;
+    bool active = 6;
+    bytes frontend_state = 7;
 }
 
 message User {
-    
+    uint64 id = 1;
+    string name = 2;
+    string username = 3;
+    string password = 4;
+    uint64 created = 5;
+    uint64 last_login = 6;
 }

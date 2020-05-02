@@ -27,7 +27,17 @@ In order to work with pixelpusher for development or to contribute to the projec
 * Golang (Developed with 1.13+)
 * dep
 * Protoc (Proto files can be found in the /protobufs folder)
+* protoc-gen_go
 * Git of course!
+
+#### Protobufs
+
+To generate fresh .proto files, run the following statement while in the project root.
+
+*Golang* - `protoc --go_out=internal/bufs protobufs/api.proto`
+
+*JavaScript* - `protoc --js_out=protobufs/js/ protobufs/api.proto`
+
 
 ### Docker
 
@@ -119,6 +129,10 @@ In order to allow for multiple lighting setups to be saved and used, projects ar
 
 `client` - Client name who uses the project.
 
+`active` - Boolean if the project is currently active in the instance.
+
+`frontend_state` - Byte array state information for the frontend.
+
 ### Users
 
 A basic user system is established in order to allow for tokens to be created by client frontend software. In the future there may be the ability to establish a basic user role system with permissions.
@@ -130,6 +144,10 @@ A basic user system is established in order to allow for tokens to be created by
 `username` - User's username to login with, this can be the same as the name but it should stay the 
 
 `password` - Hash of the user password for a login, is excluded from any request, on a login this field can be used to submit a plaintext password value.
+
+`created` - The time the user was created
+
+`last_login` - Last time this user has logged in.
 
 ## API
 
@@ -175,7 +193,13 @@ Receiving a user protobuf can be obtained here.
 
 *PUT*
 
+Update a user record using a protobuf.
+
 *DELETE*
+
+Delete a user from the pixelpusher instance.
+
+Delete a specified user.
 
 #### /api/state
 
@@ -185,13 +209,15 @@ Making a GET request to the state path will allow to get information about the c
 
 #### /api/state/devices
 
+*GET*
+
 Returns all currently active devices and their state.
 
 #### /api/devices
 
 *GET*
 
-Get all of the devices that have been registered with the API.
+Get all of the devices that have been registered with the API from all projects.
 
 #### /api/projects
 
@@ -215,6 +241,8 @@ A PUT request allows for a resource to be updated, any project filed excluding t
 
 *DELETE*
 
+Remove a project from an instance.
+
 #### /api/project/{PID}/devices
 
 *GET*
@@ -223,51 +251,87 @@ Returns an array of devices that are related to the current project.
 
 *POST*
 
+Create a new device that starts life attached to a project.
+
 #### /api/project/{PID}/device/{ID}
 
 *GET*
 
+Return a specified device's information.
+
 *PUT*
 
+Update the fields that were present in the protobuf. Some fields will be ignored.
+
 *DELETE*
+
+Delete a device from a project, if this device is attached in multiple projects it is only removed from the one specified.
 
 #### /api/project/{PID}/device/{ID}/channels
 
 *GET*
 
+Return an array of channels that are attached to a device in the scope of the project specified.
+
+Channels queried here can be mutated in the `/api/project/{PID}/channel/{ID}` path with the returned ID.
+
 *POST*
+
+Create a new channel for the device in the specified project.
 
 #### /api/project/{PID}/device/{ID}/matrixes
 
 *GET*
 
+Get matrixes for the given device which will have channel information in the protobufs as an array.
+
 *POST*
+
+Create a new matrix for the device in the specified project.
 
 #### /api/project/{PID}/channels
 
 *GET*
 
+Get the channels for the specified project as a protobuf array.
+
 *POST*
+
+Create a new channel in the project. Channels can only be in a single project at a time.
 
 #### /api/project/{PID}/channel/{ID}
 
 *GET*
 
+Query a single channel by ID that exists within the project specified by the PID.
+
 *PUT*
 
+Mutate the channel record specified by the ID and PID.
+
 *DELETE*
+
+Delete a specified channel from the project.
 
 #### /api/project/{PID}/channel/{ID}/matrixes
 
 *GET*
 
+Query matrixes by channel, returned as a protobuf array.
+
 *POST*
+
+Create a new matrix on the specified channel and project.
 
 #### /api/projects/{PID}/matrixes
 
 *GET*
 
+Return an array of all matrixes that are on the project.
+
 *POST*
+
+Create a new matrix for the project with the provided protobuf.
 
 #### /api/project/{PID}/matrix/{ID}
 
@@ -279,11 +343,19 @@ Returns an array of devices that are related to the current project.
 
 ## Device Communication
 
+In order to communicate with the device, pixelpusher uses UDP to connect, manage, and send application data to devices. UDP connections are created with the devices being the client and pixelpusher being the server.
+
 ### Joining
+
+
 
 ### Discovery
 
+Discovery is handled by mDNS with the network's local pixelpusher instance being `pixelpusher.local` by default which clients can connect to. 
+
 ### Heartbeat
+
+Every ten seconds a heartbeat must be sent through the UDP connection from the device to pixelpusher, missing two heartbeat messages at a time then it is assumed to be disconnected.
 
 ### PIXELS Application Data
 
@@ -294,3 +366,15 @@ WebRTC will be used to stream lighting data from the frontend to channels, with 
 ## Database
 
 The database is a basic SQLite database file which is used for it's portability, with each resource having it's own table. This database file can be used which can be moved to another instance or modified through a normal SQLite tool.
+
+### Tables
+
+Below each table in the SQLite database are described, the internal database library must reflect this README.
+
+#### Projects 
+
+#### Devices
+
+#### Channels
+
+#### Matrixes
