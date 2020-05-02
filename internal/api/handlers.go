@@ -5,10 +5,11 @@ import (
 	"net/http"
 
 	"github.com/IoTPanic/pixelpusher/internal/db"
+	log "github.com/sirupsen/logrus"
 )
 
 func apiRoot(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "UDXP PIXELS API")
+	fmt.Fprintln(w, "Pixelpusher API")
 }
 
 func handleHealthcheck(w http.ResponseWriter, r *http.Request) {
@@ -42,13 +43,34 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 
 // Will only be handling a GET request for the versioning info
 func handleVersionRequest(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Fprintln(w, "1")
 }
 
 // Handle a request for a user with a ID this can be a GET, PUT,
 // or DELETE request for different operations
 func handleUserRequest(w http.ResponseWriter, r *http.Request) {
+	id, _ := resolveIDs(r)
+	if id == -1 {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintln(w, "Could get get user ID from path")
+		return
+	}
+	_, err := db.QueryUserFromID(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Errorln("Failed to query user from ID", err.Error())
+		return
+	}
 
+	switch r.Method {
+	case "GET":
+
+	case "PUT":
+	case "DELETE":
+	default:
+		w.WriteHeader(http.StatusBadRequest)
+	}
+	// query user and cast to protobuf
 }
 
 // Get a list of users based off instance with a GET request or

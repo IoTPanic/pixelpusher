@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"net"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/IoTPanic/pixels-go"
 )

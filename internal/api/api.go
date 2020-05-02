@@ -1,9 +1,11 @@
 package api
 
 import (
-	"log"
 	"net/http"
+	"strconv"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/mux"
 )
@@ -20,4 +22,18 @@ func Start(host string) {
 	}
 	log.Printf("API Serving Pixelpusher at %s 🚀 🚀 🚀", host)
 	log.Fatal(srv.ListenAndServe())
+}
+
+// Returns a ID and PID from route
+func resolveIDs(r *http.Request) (int64, int64) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["ID"])
+	if err != nil {
+		id = -1
+	}
+	pid, err := strconv.Atoi(vars["PID"])
+	if err != nil {
+		pid = -1
+	}
+	return int64(id), int64(pid)
 }

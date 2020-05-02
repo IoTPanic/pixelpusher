@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/IoTPanic/pixelpusher/internal/api"
 	"github.com/IoTPanic/pixelpusher/internal/db"
@@ -54,7 +55,6 @@ func main() {
 			break
 		}
 	}
-	fmt.Println(arguments)
 
 	// Setup the database
 	dbPath := os.Getenv("DBDIR")

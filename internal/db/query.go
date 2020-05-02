@@ -43,7 +43,17 @@ func QueryDevice(deviceID int64) (Device, error) {
 
 func QueryUserFromUsername(username string) (User, error) {
 	var result User
-	rows, err := db.Query(fmt.Sprintf("SELECT * FROM 'users' WHERE username=\"%d\"", username))
+	rows, err := db.Query(fmt.Sprintf("SELECT * FROM 'users' WHERE username=\"%s\"", username))
+	if err != nil {
+		return result, err
+	}
+	err = rows.Scan(result.ID, &result.Name, &result.Username, &result.Password, &result.Created, &result.LastLogin)
+	return result, nil
+}
+
+func QueryUserFromID(id int64) (User, error) {
+	var result User
+	rows, err := db.Query(fmt.Sprintf("SELECT * FROM 'users' WHERE id=\"%d\"", id))
 	if err != nil {
 		return result, err
 	}
