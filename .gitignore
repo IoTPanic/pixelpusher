@@ -1,4 +1,4 @@
 vendor/
 .vscode/
 ./db/
-.db
+*.db

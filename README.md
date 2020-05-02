@@ -34,7 +34,7 @@ In order to work with pixelpusher for development or to contribute to the projec
 
 To generate fresh .proto files, run the following statement while in the project root.
 
-*Golang* - `protoc --go_out=internal/bufs protobufs/api.proto`
+*Golang* - `protoc --go_out=internal/ protobufs/api.proto`
 
 *JavaScript* - `protoc --js_out=protobufs/js/ protobufs/api.proto`
 
